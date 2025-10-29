@@ -1,5 +1,6 @@
 package main
 
+// adding comment for CI test
 import (
 	"database/sql"
 	"embed"
