@@ -3,6 +3,8 @@ name: ci
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
 
 jobs:
   tests:
@@ -39,3 +41,14 @@ jobs:
       - name: Run staticcheck
         run: staticcheck ./...
         
+  deploy:
+    name: Deploy
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+      - name: Build
+        run: scripts/buildprod.sh
