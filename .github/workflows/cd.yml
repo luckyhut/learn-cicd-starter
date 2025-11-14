@@ -13,3 +13,14 @@ jobs:
         uses: actions/setup-go@v5
       - name: Build
         run: scripts/buildprod.sh
+
+      - name: GCP upload
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v3'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+      - name: Send to Google Cloud
+        run: gcloud builds submit --tag us-central1-docker.pkg.dev/notely-478105/notely-ar-repo/notely:TAG .
